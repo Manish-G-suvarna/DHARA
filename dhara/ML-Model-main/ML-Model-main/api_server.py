@@ -12,6 +12,7 @@ from ayurveda_bot import (
     extract_symptoms,
     get_advanced_questions,
     calculate_advanced_dosha,
+    get_herb_info,
 )
 
 app = Flask(__name__)
@@ -96,10 +97,20 @@ def chatbot_query():
 
     # ── Check for greetings ──
     lower = message.lower()
-    if lower in ["hello", "hi", "hey", "namaste"]:
+    if lower in ["hello", "hi", "hey", "namaste", "start"]:
         return jsonify({
-            "response": "Namaste! 🙏 I'm Dhara, your Ayurveda wellness assistant. How can I help you today? You can describe your symptoms, ask about diet, or type a number (1-6) for quick options.",
-            "type": "text",
+            "response": "Namaste! 🙏 I'm Dhara, your Ayurveda wellness assistant. How can I help you today?",
+            "type": "options",
+            "data": {
+                "options": [
+                    {"id": "1", "label": "Check my Dosha (Quiz)"},
+                    {"id": "2", "label": "Manage Stress & Anxiety"},
+                    {"id": "3", "label": "Diet Suggestions"},
+                    {"id": "4", "label": "Sleep Improvement"},
+                    {"id": "5", "label": "Boost Energy & Immunity"},
+                    {"id": "6", "label": "Seasonal Health Tips"},
+                ]
+            }
         })
 
     if lower in ["exit", "bye", "quit"]:
@@ -108,7 +119,15 @@ def chatbot_query():
             "type": "text",
         })
 
-    # ── Natural symptom detection ──
+    # ── Check for Herb Questions ──
+    herb_info = get_herb_info(lower)
+    if herb_info:
+        return jsonify({
+            "response": herb_info,
+            "type": "text"
+        })
+
+    # ── Analyze Symptoms logic (fallback) ──
     symptoms = extract_symptoms(message)
 
     if symptoms:

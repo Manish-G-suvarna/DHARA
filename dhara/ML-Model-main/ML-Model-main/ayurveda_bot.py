@@ -212,3 +212,27 @@ def get_advice(dosha):
         }
     }
     return advice_db.get(dosha, advice_db.get("Unknown"))
+
+# Simple Herb Knowledge Base for Chatbot
+HERB_KNOWLEDGE = {
+    "ashwagandha": "Ashwagandha (Indian Ginseng) is an adaptogen that reduces stress, boosts vitality, and improves sleep. Best for Vata and Kapha.",
+    "tulsi": "Tulsi (Holy Basil) is excellent for respiratory health, immunity, and stress relief. It balances Vata and Kapha.",
+    "brahmi": "Brahmi is a powerful brain tonic. It improves memory, focus, and reduces anxiety. Best for Pitta and Vata.",
+    "turmeric": "Turmeric (Haridra) is a potent anti-inflammatory and antioxidant. Great for skin, digestion, and immunity.",
+    "ginger": "Ginger (Adrak) aids digestion, relieves nausea, and warms the body. Excellent for Vata and Kapha imbalances.",
+    "triphala": "Triphala is a classic digestive tonic composed of three fruits (Amla, Haritaki, Bibhitaki). It gently detoxifies and regulates bowel movements.",
+    "guduchi": "Guduchi (Giloy) is a master herb for immunity. It helps with fevers, liver health, and detox. Good for all doshas.",
+    "shatavari": "Shatavari is a rejuvenating tonic for the female reproductive system. It cools the body and balances Pitta and Vata.",
+    "neem": "Neem is the ultimate detoxifier. It purifies the blood and clears skin issues. Best for Pitta and Kapha.",
+    "amla": "Amla (Indian Gooseberry) is the highest source of Vitamin C. It is a powerful antioxidant and rejuvenator (Rasayana).",
+    "arjuna": "Arjuna is the primary herb for heart health. It strengthens the cardiac muscle and helps manage blood pressure.",
+    "licorice": "Licorice (Yashtimadhu) soothes the throat and stomach lining. It is sweet and cooling, great for Pitta."
+}
+
+def get_herb_info(text):
+    """Checks if the user text asks about a known herb and returns info."""
+    text = text.lower()
+    for herb, info in HERB_KNOWLEDGE.items():
+        if herb in text:
+            return info
+    return None

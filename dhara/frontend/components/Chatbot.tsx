@@ -8,14 +8,28 @@ import { queryChatbot } from '@/services/api';
 interface Message {
     text: string;
     sender: 'user' | 'bot';
-    type?: 'text' | 'quiz' | 'analysis';
+    type?: 'text' | 'quiz' | 'analysis' | 'options';
     data?: any;
 }
 
 export default function Chatbot() {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
-        { text: 'Namaste! 🙏 Ask me about herbs, diet, or type "1" to check your Dosha.', sender: 'bot' },
+        {
+            text: 'Namaste! 🙏 I\'m Dhara. How can I help you today?',
+            sender: 'bot',
+            type: 'options',
+            data: {
+                options: [
+                    { "id": "1", "label": "Check my Dosha (Quiz)" },
+                    { "id": "2", "label": "Manage Stress & Anxiety" },
+                    { "id": "3", "label": "Diet Suggestions" },
+                    { "id": "4", "label": "Sleep Improvement" },
+                    { "id": "5", "label": "Boost Energy & Immunity" },
+                    { "id": "6", "label": "Seasonal Health Tips" },
+                ]
+            }
+        },
     ]);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
@@ -31,10 +45,10 @@ export default function Chatbot() {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages, quizActive, currentQuestionIndex]);
 
-    const handleSend = async (text: string = input) => {
+    const handleSend = async (text: string = input, displayAsUserMessage?: string) => {
         if (!text.trim()) return;
 
-        const userMsg = text.trim();
+        const userMsg = displayAsUserMessage || text.trim();
         // Only add user message if it's not a quiz selection (handled separately in UI)
         if (!quizActive) {
             setMessages((prev) => [...prev, { text: userMsg, sender: 'user' }]);
@@ -44,7 +58,7 @@ export default function Chatbot() {
         setLoading(true);
 
         try {
-            const res = await queryChatbot(userMsg);
+            const res = await queryChatbot(text); // Send the actual text/ID to the backend
             const botMsg: Message = {
                 text: res.data.response,
                 sender: 'bot',
@@ -65,6 +79,11 @@ export default function Chatbot() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleOptionClick = (optionId: string, label: string) => {
+        // Send the option ID as the message to the backend, but display the label as user message
+        handleSend(optionId, label);
     };
 
     const handleQuizOption = (optionIndex: number) => {
@@ -162,6 +181,26 @@ export default function Chatbot() {
                                     >
                                         <p className="whitespace-pre-wrap">{msg.text}</p>
                                     </motion.div>
+
+                                    {/* Options UI */}
+                                    {msg.type === 'options' && msg.data?.options && (
+                                        <motion.div
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            className="mt-2 space-y-2 max-w-[85%]"
+                                        >
+                                            {msg.data.options.map((opt: any) => (
+                                                <button
+                                                    key={opt.id}
+                                                    onClick={() => handleOptionClick(opt.id, opt.label)}
+                                                    className="w-full text-left px-4 py-2 rounded-xl text-xs transition-all bg-white/40 hover:bg-white/60"
+                                                    style={{ border: '1px solid var(--accent)', color: 'var(--text-primary)' }}
+                                                >
+                                                    {opt.label}
+                                                </button>
+                                            ))}
+                                        </motion.div>
+                                    )}
 
                                     {/* Analysis Card */}
                                     {msg.type === 'analysis' && msg.data && (

@@ -1,4 +1,3 @@
-```javascript
 // @desc    Get chatbot response
 // @route   POST /api/chatbot/query
 // @access  Public
@@ -21,9 +20,9 @@ const queryChatbot = async (req, res) => {
     res.json(mlResponse.data);
   } catch (error) {
     console.error('ML Service Error:', error.message);
-    
+
     // Fallback if ML service is down
-    res.json({ 
+    res.json({
       response: "I'm having trouble connecting to my brain right now. Please try again later.",
       type: "text"
     });
@@ -31,4 +30,3 @@ const queryChatbot = async (req, res) => {
 };
 
 module.exports = { queryChatbot };
-```
