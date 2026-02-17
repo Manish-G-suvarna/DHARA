@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+/* ── Dhara Neumorphism Design System ── */
+:root {
+  --bg-primary: #d4e4d0;       /* light sage green */
+  --bg-secondary: #c5d8c0;     /* slightly darker sage */
+  --accent: #6b8f71;           /* muted herbal green */
+  --accent-light: #8fb996;     /* lighter herbal */
+  --text-primary: #1a3c24;     /* dark forest green */
+  --text-secondary: #3a5a3e;   /* medium forest green */
+  --text-muted: #5a7a5e;       /* light forest green */
+  --shadow-light: #e8f5e4;     /* light shadow for neumorphism */
+  --shadow-dark: #a8c4a0;      /* dark shadow for neumorphism */
+  --danger: #c0392b;
+  --caution: #e67e22;
+  --safe: #27ae60;
+}
+
+@theme inline {
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-shadow-light: var(--shadow-light);
+  --color-shadow-dark: var(--shadow-dark);
+  --color-danger: var(--danger);
+  --color-caution: var(--caution);
+  --color-safe: var(--safe);
+  --font-sans: 'Inter', 'Outfit', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', 'Outfit', sans-serif;
+  min-height: 100vh;
+}
+
+/* ── Neumorphic Utility Classes ── */
+.neu-flat {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  box-shadow:
+    8px 8px 16px var(--shadow-dark),
+    -8px -8px 16px var(--shadow-light);
+}
+
+.neu-pressed {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  box-shadow:
+    inset 4px 4px 8px var(--shadow-dark),
+    inset -4px -4px 8px var(--shadow-light);
+}
+
+.neu-button {
+  background: var(--bg-primary);
+  border: none;
+  border-radius: 12px;
+  padding: 12px 28px;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow:
+    5px 5px 10px var(--shadow-dark),
+    -5px -5px 10px var(--shadow-light);
+}
+
+.neu-button:hover {
+  box-shadow:
+    3px 3px 6px var(--shadow-dark),
+    -3px -3px 6px var(--shadow-light);
+}
+
+.neu-button:active {
+  box-shadow:
+    inset 3px 3px 6px var(--shadow-dark),
+    inset -3px -3px 6px var(--shadow-light);
+}
+
+.neu-button-accent {
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 28px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow:
+    5px 5px 10px var(--shadow-dark),
+    -5px -5px 10px var(--shadow-light);
+}
+
+.neu-button-accent:hover {
+  background: var(--accent-light);
+  box-shadow:
+    3px 3px 6px var(--shadow-dark),
+    -3px -3px 6px var(--shadow-light);
+}
+
+.neu-card {
+  background: var(--bg-primary);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow:
+    8px 8px 16px var(--shadow-dark),
+    -8px -8px 16px var(--shadow-light);
+  transition: all 0.3s ease;
+}
+
+.neu-card:hover {
+  box-shadow:
+    10px 10px 20px var(--shadow-dark),
+    -10px -10px 20px var(--shadow-light);
+}
+
+.neu-input {
+  background: var(--bg-primary);
+  border: none;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 1rem;
+  color: var(--text-primary);
+  width: 100%;
+  outline: none;
+  box-shadow:
+    inset 4px 4px 8px var(--shadow-dark),
+    inset -4px -4px 8px var(--shadow-light);
+}
+
+.neu-input::placeholder {
+  color: var(--text-muted);
+}
+
+.neu-input:focus {
+  box-shadow:
+    inset 5px 5px 10px var(--shadow-dark),
+    inset -5px -5px 10px var(--shadow-light);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 4px;
+}
